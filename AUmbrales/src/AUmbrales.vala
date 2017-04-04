@@ -114,22 +114,13 @@ namespace Aumbrales{
 			while(c<this.lote){
 				sprima = this.s.vecino(sol);
 				if(this.s.fcosto(sprima,this.ce)<= (this.s.fcosto(sol,this.ce)+t)){
-					if(this.s.fcosto(this.mejorS,this.ce)<=this.s.fcosto(sol,this.ce)+t){
-						this.mejorS = sprima;
-						//foreach (int a in sprima) { stdout.printf("%d,", a); }
-						//stdout.printf("\n");
-					}
-
-					if(this.s.factible(sprima)){
-						foreach (int a in sprima) { stdout.printf("%d,", a); }
-						stdout.printf("\n");
-					}
+					
 					sol = sprima;
 					c++;
 					r +=this.s.fcosto(sprima,this.ce);
 				}
 			}
-			stdout.printf("r=%2.9f",r);
+			stdout.printf("r=%2.9f\n",r);
 			return r/this.lote;
 		}
 
@@ -147,6 +138,7 @@ namespace Aumbrales{
 					
 					stdout.printf("Un Lote lleno\n");
 				}
+				stdout.printf("p=%2.9f\n ",p);
 				t = this.psi*t;
 				stdout.printf("temperatura=%s\n",t.to_string());
 			}

@@ -115,7 +115,9 @@ AUmbrales_LDADD =		\
 # tests
 TESTS = test/test-aumbrales
 
-TESTSOURCES = test/test-ciudad.vala
+TESTSOURCES =			\
+	test/test-ciudad.vala 	\
+	test/test-solucion.vala
 
 test_test_aumbrales_SOURCES =			\
 	$(TESTSOURCES)				\

@@ -60,7 +60,7 @@ namespace Aumbrales.Aceptacion{
 			return this.shuffle(s);
 		}
 		
-		private double getMax(int[] s){
+		public double getMax(int[] s){
 			double max=0;
 			for(int i =0 ; i<s.length-1;i++){
 				var di = map[s[(i)].to_string()+","+s[i+1].to_string()];
@@ -78,7 +78,7 @@ namespace Aumbrales.Aceptacion{
 			return max;
 		}
 		
-		private double getAvg(int[] s){
+		public double getAvg(int[] s){
 			double sum =0;
 			for(int i = 0;i<s.length-1;i++){
 				var di = map[s[(i)].to_string()+","+s[i+1].to_string()];
@@ -100,20 +100,16 @@ namespace Aumbrales.Aceptacion{
 		 */
 		public int[] vecino(int[] s){
 			var l = s.length;
-			var out = new int[l];
+			var o = new int[l];
             var c1= (int)this.rand.int_range(0,l);
             var c2= (int)this.rand.int_range(0,l);
-            for(int i = 0;i<=l-1; i++){
-                if(i==c1){
-                	out[i]= s[c2];
-				}else
-                if(i==c2){
-					out[i] = s[c1];
-				}else{
-                out[i] = s[i];
-				}
-            }
-            return out;
+			stdout.printf("c1 = %d,c2=%d\n",c1,c2);
+			for(int i=0;i<l;i++){
+			    o[i] = s[i];
+			}
+			o[c1] = s[c2];
+			o[c2] = s[c1];
+            return o;
         }
 
 		public int[] shuffle(int[] s){
@@ -122,8 +118,8 @@ namespace Aumbrales.Aceptacion{
 			while(n>0){
 				
 				ou = this.vecino(s);
-				//foreach (int a in ou) { stdout.printf("%d,", a); }
-				//stdout.printf("\n");
+				foreach (int a in ou) { stdout.printf("%d,", a); }
+				stdout.printf("\n");
 				n--;
 			}
 			return ou;
@@ -154,8 +150,8 @@ namespace Aumbrales.Aceptacion{
 				sum += dprima(i,i+1,c);
 			   
 			}
-			var avgf = this.avg * (s.length-1);
-			//stderr.printf("=========>%2.9f\n", avg);
+			var avgf = this.avg * s.length;
+			//stderr.printf("=========>%2.9f\n", sum/avgf);
 			return sum/avgf;
 			
 		}
