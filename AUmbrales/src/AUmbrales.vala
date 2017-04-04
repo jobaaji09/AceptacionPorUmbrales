@@ -15,8 +15,8 @@ namespace Aumbrales{
 		/*epsilonp cero virtual*/
 		private double epsilonp;
                 
-                /*Constante C*/
-                private int ce;
+		/*Constante C*/
+		private int ce;
 		/*
 		 *Constructor
 		 */
@@ -76,8 +76,6 @@ namespace Aumbrales{
 			int[] sprima = null;
 			for(int i =1;i<sol.length;i++){
 				sprima = this.s.vecino(sol);
-				//foreach (int a in sprima) { stdout.printf("%d,", a); }
-				//stdout.printf("\n");
 				if(this.s.fcosto(sprima,this.ce) <= (this.s.fcosto(sol,this.ce)+t)){
 					c++;
 				}
@@ -99,10 +97,10 @@ namespace Aumbrales{
 			}
 			if(p> pacept){
 				//que p va?
-				return busquedaBinaria(sol,t1,tmedia,pacept);
+				return busquedaBinaria(sol,t1,tmedia,p);
 			}else{
 				//que p do?
-				return busquedaBinaria(sol,tmedia,t2,p);
+				return busquedaBinaria(sol,tmedia,t2,pacept);
 			}
 		}
 
@@ -111,21 +109,27 @@ namespace Aumbrales{
 		 */
 		public double calculaLote(double t,int[] sol){
 			int c = 0;
-			double r =0.0;
+			double r =0;
 			int[] sprima = null;
 			while(c<this.lote){
 				sprima = this.s.vecino(sol);
 				if(this.s.fcosto(sprima,this.ce)<= (this.s.fcosto(sol,this.ce)+t)){
-					if(this.s.fcosto(sprima,this.ce)<= this.s.fcosto(this.mejorS,this.ce)  && this.s.factible(sprima)){
+					if(this.s.fcosto(this.mejorS,this.ce)<=this.s.fcosto(sol,this.ce)+t){
 						this.mejorS = sprima;
+						//foreach (int a in sprima) { stdout.printf("%d,", a); }
+						//stdout.printf("\n");
+					}
+
+					if(this.s.factible(sprima)){
 						foreach (int a in sprima) { stdout.printf("%d,", a); }
 						stdout.printf("\n");
 					}
 					sol = sprima;
 					c++;
-					r = r+this.s.fcosto(sprima,this.ce);
+					r +=this.s.fcosto(sprima,this.ce);
 				}
 			}
+			stdout.printf("r=%2.9f",r);
 			return r/this.lote;
 		}
 
@@ -137,7 +141,7 @@ namespace Aumbrales{
 			while(t>this.epsilon){
 				double pprima = 0;
 				while((p-pprima).abs()>this.epsilonp){
-					stdout.printf("p=%s , pprima=%s\n",p.to_string(),pprima.to_string());
+					stdout.printf("p=%2.9f , pprima=%s\n",p,pprima.to_string());
 					pprima = p;
 					p = calculaLote(t,s);
 					
