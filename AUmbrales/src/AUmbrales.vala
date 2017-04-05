@@ -17,6 +17,9 @@ namespace Aumbrales{
                 
 		/*Constante C*/
 		private int ce;
+
+		/*Factibles*/
+		private int fac;
 		/*
 		 *Constructor
 		 */
@@ -26,13 +29,13 @@ namespace Aumbrales{
 						 double psi,
 						 double epsilon,
 						 double epsilonp,
-                                                 int c){
+						 int c){
 			this.s = solucion;
 			this.lote =lote;
 			this.psi =psi;
 			this.epsilon = epsilon;
 			this.epsilonp = epsilonp;
-                        this.ce = c;
+			this.ce = c;
 		}
 
 		/*
@@ -114,13 +117,20 @@ namespace Aumbrales{
 			while(c<this.lote){
 				sprima = this.s.vecino(sol);
 				if(this.s.fcosto(sprima,this.ce)<= (this.s.fcosto(sol,this.ce)+t)){
-					
+					if(this.s.fcosto(this.mejorS,this.ce)>= this.s.fcosto(sprima,this.ce)){
+						this.mejorS = sprima;
+						foreach(int i in sprima){stdout.printf("%d ,",i);}
+						stdout.printf("\n");
+					}
+					if(this.s.factible(sprima)){
+						this.fac++;
+					}
 					sol = sprima;
 					c++;
 					r +=this.s.fcosto(sprima,this.ce);
 				}
 			}
-			stdout.printf("r=%2.9f\n",r);
+			//stdout.printf("r=%2.9f\n",r);
 			return r/this.lote;
 		}
 
@@ -128,17 +138,19 @@ namespace Aumbrales{
 		 *Aceptacion por umbrales
 		 */
 		public void aceptacionPorUmbrales(double t,int[]s){
+			this.mejorS = s;
 			double p = double.MAX;
 			while(t>this.epsilon){
 				double pprima = 0;
+				this.fac=0;
+				//stdout.printf("condicion=%2.9f\n ",(p-pprima).abs());
 				while((p-pprima).abs()>this.epsilonp){
-					stdout.printf("p=%2.9f , pprima=%s\n",p,pprima.to_string());
+					//stdout.printf("p=%2.9f , pprima=%s\n",p,pprima.to_string());
 					pprima = p;
-					p = calculaLote(t,s);
-					
+					p = calculaLote(t,this.mejorS);
 					stdout.printf("Un Lote lleno\n");
 				}
-				stdout.printf("p=%2.9f\n ",p);
+				stdout.printf("factibles = %d\n ",this.fac);
 				t = this.psi*t;
 				stdout.printf("temperatura=%s\n",t.to_string());
 			}

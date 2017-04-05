@@ -1,3 +1,4 @@
+
 /**
  * Clase que obtiene la solucion inicial 
  */
@@ -27,7 +28,7 @@ namespace Aumbrales.Aceptacion{
 		 */
 		public int[] generaCaminoAleatorio(int n){
 			var camino = new int[n];
-			var x = (int)this.rand.int_range(1,277);
+			var x = (int)this.rand.int_range(1,278);
 			int i = 0;
 			camino[i] = x;
 			//stdout.printf("x=%d\n",x);
@@ -52,12 +53,12 @@ namespace Aumbrales.Aceptacion{
 			return camino;
 		}
 
-		public int[] caminoNoAleatorio(int[] s){
+		public void caminoNoAleatorio(int[] s){
 			this.max = getMax(s);
 			this.avg = getAvg(s);
 			//stdout.printf("max = %2.9f\n",this.max);
 			//stdout.printf("avg = %2.9f\n",this.avg);
-			return this.shuffle(s);
+			
 		}
 		
 		public double getMax(int[] s){
@@ -101,30 +102,17 @@ namespace Aumbrales.Aceptacion{
 		public int[] vecino(int[] s){
 			var l = s.length;
 			var o = new int[l];
+			for(int i = 0 ;i<l;i++){
+				o[i] = s[i];
+			}
             var c1= (int)this.rand.int_range(0,l);
             var c2= (int)this.rand.int_range(0,l);
-			stdout.printf("c1 = %d,c2=%d\n",c1,c2);
-			for(int i=0;i<l;i++){
-			    o[i] = s[i];
-			}
-			o[c1] = s[c2];
-			o[c2] = s[c1];
+			var aux=o[c1];
+			o[c1] = o[c2];
+			o[c2] = aux;
             return o;
         }
 
-		public int[] shuffle(int[] s){
-			int n = s.length;
-			int[] ou =new int[n];
-			while(n>0){
-				
-				ou = this.vecino(s);
-				foreach (int a in ou) { stdout.printf("%d,", a); }
-				stdout.printf("\n");
-				n--;
-			}
-			return ou;
-
-		}
 		/**
 		 * Verifica si una solucion es factible 
 		 */
@@ -147,37 +135,39 @@ namespace Aumbrales.Aceptacion{
 		public double fcosto(int[] s,int c){
 			double sum =0;
 			for(int i =0; i<s.length-1;i++){
-				sum += dprima(i,i+1,c);
-			   
+				sum += dprima(s[i],s[i+1],c);
+				//stderr.printf("sum=========>%2.9f\n", sum);
 			}
 			var avgf = this.avg * s.length;
-			//stderr.printf("=========>%2.9f\n", sum/avgf);
+			
 			return sum/avgf;
 			
 		}
 
 		private double dprima(int c1,int c2,int c){
-			//double distancia = 0;
+			double distancia = 0;
 			var di = map[c1.to_string()+","+c2.to_string()];
 			var dv = map[c2.to_string()+","+c1.to_string()];
 			//stderr.printf("=========>%2.9f %2.9f\n", di, dv);
 			if(di==null && dv == null){
-				return  this.max * c;
+				//stderr.printf("Siempre aqui?\n");
+				distancia= this.max * c;
 			}else{
 				if(di!=null){
-					 return di;
+					distancia = di;
 				}else{
-					return dv;
+					distancia = dv;
 				}
 			}
-			//return distancia;
+			//stderr.printf("=========>%2.9f\n", distancia);
+			return distancia;
 		}
 
 		public int desconexiones(int[] s){
 			int c =0;
-			for(int i = 0 ; i<s.length;i++){
-				var k1= s[i-1].to_string() +","+ s[i].to_string();
-                var k2 = s[i].to_string() +","+ s[i-1].to_string();
+			for(int i = 0 ; i<s.length-1;i++){
+				var k1= s[i].to_string() +","+ s[i+1].to_string();
+                var k2 = s[i+1].to_string() +","+ s[i].to_string();
 				//stdout.printf("k1=%s,k2=%s\n",k1,k2);
         	    if (map[k1] == null && map[k2] == null){
         	        c++;

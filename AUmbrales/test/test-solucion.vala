@@ -9,9 +9,12 @@ namespace Aumbrales.Test{
 			base("TestCiudad");
 			add_test("test_generaCaminoAleatorio",test_generaCaminoAleatorio);
 			add_test("test_caminoNoAleatorio",test_caminoNoAleatorio);
+			var rand =new GLib.Rand();
 			var map = new HashMap<string,double?>();
 			for(int i = 1;i<277;i++){
-				map[i.to_string()+","+(i+1).to_string()] = i * 2     ;
+				map[((int)rand.int_range(1,278)).to_string()
+					+","+
+					((int)rand.int_range(1,278)).to_string()] = (double)rand.double_range(1,278);
 			}
 			s = new Aceptacion.Solucion(map , 2);
 		}
@@ -22,28 +25,22 @@ namespace Aumbrales.Test{
 			int[] sa = s.vecino(a);
 			int d =0;
 			for(int i=0;i<a.length;i++){
-				if(a[i] == sa[i]){
+				if(a[i] != sa[i]){
 					d++;
 					
 				}
 			}
-			assert (d == 5);
+			assert (d ==2);
 			
 		}
 		
 		public void test_caminoNoAleatorio(){
 			
 			int[] a = {1,2,5,4,277};
-			int [] c = s.caminoNoAleatorio(a);
-			assert (a.length == c.length);
+			s.caminoNoAleatorio(a);
 			int d =0;
-			for(int i=0;i<a.length;i++){
-				if(a[i] == c[i]){
-					d++;
-					
-				}
-			}
-			assert (d == 5);
+	    
+			assert (d == 0);
 			//assert (d == 2);
 			
 		}
