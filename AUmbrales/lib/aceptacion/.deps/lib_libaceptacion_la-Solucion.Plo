@@ -285,7 +285,12 @@ lib/aceptacion/lib_libaceptacion_la-Solucion.lo: \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/string.h \
  /usr/include/x86_64-linux-gnu/bits/string2.h \
- /usr/include/x86_64-linux-gnu/bits/string3.h
+ /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/stdio.h \
+ /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h
 
 /usr/include/stdc-predef.h:
 
@@ -928,3 +933,19 @@ lib/aceptacion/lib_libaceptacion_la-Solucion.lo: \
 /usr/include/x86_64-linux-gnu/bits/string2.h:
 
 /usr/include/x86_64-linux-gnu/bits/string3.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:

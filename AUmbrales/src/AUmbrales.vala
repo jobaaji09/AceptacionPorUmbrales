@@ -111,12 +111,17 @@ namespace Aumbrales{
 		 *Calcula un lote
 		 */
 		public double calculaLote(double t,int[] sol){
+			stdout.printf("EMPIEZA LOTE\n");
 			int c = 0;
 			double r =0;
 			int[] sprima = null;
 			while(c<this.lote){
+				var fs = (this.s.fcosto(sol,this.ce)+t);
+				stdout.printf("CALCULA FUNCION DE COSTO\n");
 				sprima = this.s.vecino(sol);
-				if(this.s.fcosto(sprima,this.ce)<= (this.s.fcosto(sol,this.ce)+t)){
+				stdout.printf("CALCULA VECINO\n");
+				if(this.s.fcosto(sprima,this.ce)<= fs){
+					stdout.printf("MEJORO VECINO\n");
 					if(this.s.fcosto(this.mejorS,this.ce)>= this.s.fcosto(sprima,this.ce)){
 						this.mejorS = sprima;
 						foreach(int i in sprima){stdout.printf("%d ,",i);}
@@ -125,34 +130,39 @@ namespace Aumbrales{
 					if(this.s.factible(sprima)){
 						this.fac++;
 					}
+					stdout.printf("CALCULA FACTIBLE\n");
 					sol = sprima;
 					c++;
-					r +=this.s.fcosto(sprima,this.ce);
+					r +=this.s.fcosto(sprima,this.ce); //r suma de costos
+					stdout.printf("SUMA COSTOS\n");
 				}
 			}
 			//stdout.printf("r=%2.9f\n",r);
+			stdout.printf("TERMINA LOTE");
 			return r/this.lote;
 		}
 
 		/**
 		 *Aceptacion por umbrales
 		 */
-		public void aceptacionPorUmbrales(double t,int[]s){
-			this.mejorS = s;
+		public void aceptacionPorUmbrales(double t,int[]sol){
+			this.mejorS = sol;
 			double p = double.MAX;
 			while(t>this.epsilon){
 				double pprima = 0;
 				this.fac=0;
 				//stdout.printf("condicion=%2.9f\n ",(p-pprima).abs());
 				while((p-pprima).abs()>this.epsilonp){
-					//stdout.printf("p=%2.9f , pprima=%s\n",p,pprima.to_string());
+					stdout.printf("p=%2.9f , pprima=%2.9f\n",p,pprima);
 					pprima = p;
-					p = calculaLote(t,this.mejorS);
+					stdout.printf("NUEVO LOTE\n");
+					p = calculaLote(t ,sol);
 					stdout.printf("Un Lote lleno\n");
 				}
+				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(sol,this.ce));
 				stdout.printf("factibles = %d\n ",this.fac);
 				t = this.psi*t;
-				stdout.printf("temperatura=%s\n",t.to_string());
+				stdout.printf("temperatura=%2.9f\n",t);
 			}
 			
 		} 
