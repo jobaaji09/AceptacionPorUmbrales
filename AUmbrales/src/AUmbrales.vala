@@ -6,8 +6,10 @@ namespace Aumbrales{
 		private int lote;
 		
 		/*Mejor solucion*/
-		public int[] mejorS{get;set;}
-		
+		public int[] mejor{get;set;}
+
+		/*Altima solucion*/
+		private int[] ultima;
 		/*psi factor de enfriamiento*/
 		private double psi;
 		/*epsilon equlibrio termico*/
@@ -15,11 +17,9 @@ namespace Aumbrales{
 		/*epsilonp cero virtual*/
 		private double epsilonp;
                 
-		/*Constante C*/
-		private int ce;
-
 		/*Factibles*/
 		private int fac;
+
 		/*
 		 *Constructor
 		 */
@@ -28,14 +28,13 @@ namespace Aumbrales{
 						 int lote,
 						 double psi,
 						 double epsilon,
-						 double epsilonp,
-						 int c){
+						 double epsilonp
+						 ){
 			this.s = solucion;
 			this.lote =lote;
 			this.psi =psi;
 			this.epsilon = epsilon;
 			this.epsilonp = epsilonp;
-			this.ce = c;
 		}
 
 		/*
@@ -79,7 +78,7 @@ namespace Aumbrales{
 			int[] sprima = null;
 			for(int i =1;i<sol.length;i++){
 				sprima = this.s.vecino(sol);
-				if(this.s.fcosto(sprima,this.ce) <= (this.s.fcosto(sol,this.ce)+t)){
+				if(this.s.fcosto(sprima) <= (this.s.fcosto(sol)+t)){
 					c++;
 				}
 				sol = sprima;
@@ -110,35 +109,31 @@ namespace Aumbrales{
 		/**
 		 *Calcula un lote
 		 */
-		public double calculaLote(double t,int[] sol){
+		public double calculaLote(double t){
 			stdout.printf("EMPIEZA LOTE\n");
 			int c = 0;
 			double r =0;
-			int[] sprima = null;
 			while(c<this.lote){
-				var fs = (this.s.fcosto(sol,this.ce)+t);
-				stdout.printf("CALCULA FUNCION DE COSTO\n");
-				sprima = this.s.vecino(sol);
-				stdout.printf("CALCULA VECINO\n");
-				if(this.s.fcosto(sprima,this.ce)<= fs){
-					stdout.printf("MEJORO VECINO\n");
-					if(this.s.fcosto(this.mejorS,this.ce)>= this.s.fcosto(sprima,this.ce)){
-						this.mejorS = sprima;
-						foreach(int i in sprima){stdout.printf("%d ,",i);}
-						stdout.printf("\n");
+				
+				var sprima = this.s.vecino(this.ultima);
+				var fsp = this.s.fcosto(sprima);
+				var fsl = (this.s.fcosto(this.ultima)+t);
+				stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
+				if(fsp<= fsl){
+					var fm = this.s.fcosto(this.mejor);
+					if(fsp<=fm){
+						this.mejor = sprima;
 					}
-					if(this.s.factible(sprima)){
-						this.fac++;
-					}
-					stdout.printf("CALCULA FACTIBLE\n");
-					sol = sprima;
+					r+=fsp;
+					this.ultima = sprima;
 					c++;
-					r +=this.s.fcosto(sprima,this.ce); //r suma de costos
-					stdout.printf("SUMA COSTOS\n");
+				}
+				if(this.s.factible(this.ultima)){
+					fac++;
 				}
 			}
-			//stdout.printf("r=%2.9f\n",r);
-			stdout.printf("TERMINA LOTE");
+			stdout.printf("r=%2.9f\n",r);
+			stdout.printf("TERMINA LOTE\n");
 			return r/this.lote;
 		}
 
@@ -146,23 +141,25 @@ namespace Aumbrales{
 		 *Aceptacion por umbrales
 		 */
 		public void aceptacionPorUmbrales(double t,int[]sol){
-			this.mejorS = sol;
+		
+			this.mejor = sol;
+			this.ultima =sol;
 			double p = double.MAX;
 			while(t>this.epsilon){
 				double pprima = 0;
 				this.fac=0;
-				//stdout.printf("condicion=%2.9f\n ",(p-pprima).abs());
 				while((p-pprima).abs()>this.epsilonp){
 					stdout.printf("p=%2.9f , pprima=%2.9f\n",p,pprima);
 					pprima = p;
-					stdout.printf("NUEVO LOTE\n");
-					p = calculaLote(t ,sol);
+					p = calculaLote(t);
 					stdout.printf("Un Lote lleno\n");
 				}
-				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(sol,this.ce));
+				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(sol));
 				stdout.printf("factibles = %d\n ",this.fac);
 				t = this.psi*t;
 				stdout.printf("temperatura=%2.9f\n",t);
+				//foreach(int i in sol){stdout.printf("%d ,",i);}
+				//stdout.printf("\n");
 			}
 			
 		} 
