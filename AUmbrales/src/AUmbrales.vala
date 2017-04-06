@@ -118,7 +118,7 @@ namespace Aumbrales{
 				var sprima = this.s.vecino(this.ultima);
 				var fsp = this.s.fcosto(sprima);
 				var fsl = (this.s.fcosto(this.ultima)+t);
-				stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
+				//stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
 				if(fsp<= fsl){
 					var fm = this.s.fcosto(this.mejor);
 					if(fsp<=fm){
@@ -154,7 +154,7 @@ namespace Aumbrales{
 					p = calculaLote(t);
 					stdout.printf("Un Lote lleno\n");
 				}
-				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(sol));
+				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(this.ultima));
 				stdout.printf("factibles = %d\n ",this.fac);
 				t = this.psi*t;
 				stdout.printf("temperatura=%2.9f\n",t);

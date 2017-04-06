@@ -15,6 +15,7 @@ lib_libtest_la_VALAFLAGS =		\
 	@GEE_PACKAGES@			\
 	@GTK_PACKAGES@			\
 	@SQLITE_PACKAGES@		\
+	@GIO_PACKAGES@			\
 	--header lib/test/test.h	\
 	--vapi vapi/test.vapi
 
@@ -22,13 +23,15 @@ lib_libtest_la_CFLAGS =		\
 	@GEE_CFLAGS@		\
 	@GTK_CFLAGS@		\
 	@SQLITE_CFLAGS@		\
+	@GIO_CFLAGS@		\
 	-I$(srcdir)/lib/test	\
 	-w
 
 lib_libtest_la_LIBADD = 	\
 	@GEE_LIBS@		\
 	@GTK_LIBS@		\
-	@SQLITE_LIBS@
+	@SQLITE_LIBS@		\
+	@GIO_LIBS@
 
 #libbase
 noinst_LTLIBRARIES += lib/libbase.la
@@ -40,6 +43,7 @@ lib_libbase_la_VALAFLAGS =		\
 	@GEE_PACKAGES@			\
 	@GTK_PACKAGES@			\
 	@SQLITE_PACKAGES@		\
+	@GIO_PACKAGES@			\
 	--header lib/base/base.h	\
 	--vapi vapi/base.vapi
 
@@ -47,12 +51,14 @@ lib_libbase_la_CFLAGS =		\
 	@GEE_CFLAGS@		\
 	@GTK_CFLAGS@		\
 	@SQLITE_CFLAGS@		\
+	@GIO_CFLAGS@		\
 	-w
 
 lib_libbase_la_LIBADD =		\
 	@GEE_LIBS@		\
 	@GTK_LIBS@		\
-	@SQLITE_LIBS@
+	@SQLITE_LIBS@		\
+	@GIO_LIBS@
 
 #libaceptacion
 noinst_LTLIBRARIES += lib/libaceptacion.la
@@ -60,23 +66,26 @@ noinst_LTLIBRARIES += lib/libaceptacion.la
 lib_libaceptacion_la_SOURCES =lib/aceptacion/Solucion.vala	
 
 lib_libaceptacion_la_VALAFLAGS =		\
-	$(COMMON_VALAFLAGS)		\
-	@GEE_PACKAGES@			\
-	@GTK_PACKAGES@			\
-	@SQLITE_PACKAGES@		\
+	$(COMMON_VALAFLAGS)			\
+	@GEE_PACKAGES@				\
+	@GTK_PACKAGES@				\
+	@SQLITE_PACKAGES@			\
+	@GIO_PACKAGES@				\
 	--header lib/aceptacion/aceptacion.h	\
 	--vapi vapi/aceptacion.vapi
 
-lib_libaceptacion_la_CFLAGS =		\
+lib_libaceptacion_la_CFLAGS =	\
 	@GEE_CFLAGS@		\
 	@GTK_CFLAGS@		\
 	@SQLITE_CFLAGS@		\
+	@GIO_CFLAGS@		\
 	-w
 
-lib_libaceptacion_la_LIBADD =		\
+lib_libaceptacion_la_LIBADD =	\
 	@GEE_LIBS@		\
 	@GTK_LIBS@		\
-	@SQLITE_LIBS@
+	@SQLITE_LIBS@		\
+	@GIO_LIBS@
 
 #AUmbrales
 bin_PROGRAMS = AUmbrales
@@ -94,12 +103,14 @@ AUmbrales_VALAFLAGS =	        \
 	--target-glib=2.38	\
 	@GEE_PACKAGES@		\
 	@GTK_PACKAGES@		\
-	@SQLITE_PACKAGES@	
+	@SQLITE_PACKAGES@	\
+	@GIO_PACKAGES@
 
 AUmbrales_CFLAGS =		\
 	@GEE_CFLAGS@		\
 	@GTK_CFLAGS@		\
 	@SQLITE_CFLAGS@		\
+	@GIO_CFLAGS@		\
 	-I$(srcdir)/lib/aceptacion\
 	-I$(srcdir)/lib/base	\
 	-w
@@ -108,6 +119,7 @@ AUmbrales_LDADD =		\
 	@GEE_LIBS@		\
 	@GTK_LIBS@		\
 	@SQLITE_LIBS@		\
+	@GIO_LIBS@		\
 	lib/libbase.la		\
 	lib/libaceptacion.la
 
