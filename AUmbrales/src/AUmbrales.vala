@@ -118,7 +118,7 @@ namespace Aumbrales{
 				var sprima = this.s.vecino(this.ultima);
 				var fsp = this.s.fcosto(sprima);
 				var fsl = (this.s.fcosto(this.ultima)+t);
-				//stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
+				stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
 				if(fsp<= fsl){
 					var fm = this.s.fcosto(this.mejor);
 					if(fsp<=fm){
@@ -132,7 +132,7 @@ namespace Aumbrales{
 					fac++;
 				}
 			}
-			stdout.printf("r=%2.9f\n",r);
+			//stdout.printf("r=%2.9f\n",r);
 			stdout.printf("TERMINA LOTE\n");
 			return r/this.lote;
 		}
@@ -149,7 +149,7 @@ namespace Aumbrales{
 				double pprima = 0;
 				this.fac=0;
 				while((p-pprima).abs()>this.epsilonp){
-					stdout.printf("p=%2.9f , pprima=%2.9f\n",p,pprima);
+					//stdout.printf("p=%2.9f , pprima=%2.9f\n",p,pprima);
 					pprima = p;
 					p = calculaLote(t);
 					stdout.printf("Un Lote lleno\n");
