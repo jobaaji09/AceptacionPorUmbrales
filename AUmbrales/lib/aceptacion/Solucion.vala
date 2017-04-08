@@ -93,21 +93,22 @@ namespace Aumbrales.Aceptacion{
 			//stdout.printf("EMPIEZA A CALCULAR VECINO\n");
 
 			var l = s.length;
-			int[] o = new int[l];
-			for(int i = 0;i<l;i++){
-				o[i] = s[i];
-			}
+			//int[] o = new int[l];
+			//for(int i = 0;i<l;i++){
+			//	o[i] = s[i];
+			//}
 			var c1= (int)this.rand.int_range(0,l);
             var c2= (int)this.rand.int_range(0,l);
-			o[c1] = s[c2];
-			o[c2] = s[c1];
+			var aux = s[c1];
+			s[c1] = s[c2];
+			s[c2] = aux;
 			//stdout.printf("c1 = %d , c2 = %d\n",c1,c2);
 			//foreach(int i in s){stdout.printf("%d ,",i);}
 			//stdout.printf("\n");
 			//foreach(int i in o){stdout.printf("%d ,",i);}
 			//stdout.printf("\n");
 			//stdout.printf("TERMINO DE CALCULAR VECINO\n");
-            return o;
+            return s;
         }
 
 		/**

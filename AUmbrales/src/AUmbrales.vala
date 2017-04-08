@@ -114,11 +114,11 @@ namespace Aumbrales{
 			int c = 0;
 			double r =0;
 			while(c<this.lote){
-				
+				var fsl = (this.s.fcosto(this.ultima)+t);
 				var sprima = this.s.vecino(this.ultima);
 				var fsp = this.s.fcosto(sprima);
-				var fsl = (this.s.fcosto(this.ultima)+t);
-				stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
+				
+				//stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
 				if(fsp<= fsl){
 					var fm = this.s.fcosto(this.mejor);
 					if(fsp<=fm){
