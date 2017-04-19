@@ -151,7 +151,32 @@ namespace Aumbrales.Aceptacion{
 
 		}
 
-		public void imprimeSolucion
-	    
+		public void imprimeSolucion(int[] sol){
+			string s ="";
+			foreach(int i in sol){
+				s+=i.to_string()+",";
+			}
+			try {
+				string name = fcosto(sol).to_string();
+				var file = File.new_for_path ("experimentos/"+name+".tsp");
+				
+				if (file.query_exists ()) {
+					file.delete ();
+				}
+				
+				
+				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+
+				// writing a short string to the stream
+				dos.put_string (s);
+        
+			
+			} catch (Error e) {
+				stderr.printf ("%s\n", e.message);
+				
+			}
+		
+		}
+		
 	}
 }

@@ -169,8 +169,8 @@ namespace Aumbrales{
 		}
 		
 		private void imprime(double f){
-			string s = this.psi.to_string()+this.epsilon.to_string();
-			File file = File.new_for_path ("experimentos/"+s+".txt");
+			string name = this.psi.to_string()+this.epsilon.to_string();
+			File file = File.new_for_path ("experimentos/"+name+".txt");
 			try {
 				// Append a new line on each run:
 				FileOutputStream os = file.append_to (FileCreateFlags.NONE);
