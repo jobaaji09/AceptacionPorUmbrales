@@ -16,7 +16,7 @@ namespace Aumbrales{
 		private double epsilon;
 		/*epsilonp cero virtual*/
 		private double epsilonp;
-                
+
 		/*Factibles*/
 		private int fac;
 
@@ -41,10 +41,12 @@ namespace Aumbrales{
 		 * Calcuala la temepratura inicial 
 		 * apartir de una solucion una temperatura t talque 0<= t <=2^k 
 		 * con k muy grande
-		 */  
+		 */
+		/*
 		public double temperaturaInicial(int[] s,double t , double pacept){
-			double p = porcentajesAceptados(s,t);
-			stdout.printf("porcentage = %s\n",p.to_string());
+			this.ultima =s;
+			double p = porcentajesAceptados(t);
+			stdout.printf("porcentage = %2.9f\n",p);
 			if((pacept-p).abs()<=this.epsilonp){
 				return t;
 			}
@@ -53,63 +55,64 @@ namespace Aumbrales{
 			if(p<pacept){
 				while(p<pacept){
 					t =t*2;
-					p = porcentajesAceptados(s,t);
-					stdout.printf("p<pacept , %s\n",p.to_string());
+					p = porcentajesAceptados(t);
+					stdout.printf("p<pacept, %s , %2.9f\n",p.to_string(),t);
 				}
 				t1 = t/2;
 				t2 = t;
 			}else{
 				while(p>pacept){
 					t = t/2;
-					p = porcentajesAceptados(s,t);
+					p = porcentajesAceptados(t);
 					stdout.printf("p>pacept , %s\n",p.to_string());
 				}
 				t1 = t;
 				t2 = t*2;
 				
 			}
-			stdout.printf(" antes de bin t1 = %s,t2=%s",t1.to_string(),t2.to_string());
-			return busquedaBinaria(s,t1,t2,pacept);
+			stdout.printf(" antes de bin t1 = %s,t2=%s\n",t1.to_string(),t2.to_string());
+			return busquedaBinaria(t1,t2,pacept);
 		}
 
-
-		private double porcentajesAceptados(int[] sol,double t){
+		Porcentaje de soluciones aceptadas
+		private double porcentajesAceptados(double t){
 			double c = 0;
-			int[] sprima = null;
-			for(int i =1;i<sol.length;i++){
-				sprima = this.s.vecino(sol);
-				if(this.s.fcosto(sprima) <= (this.s.fcosto(sol)+t)){
+			for(int i =1;i<this.ultima.length;i++){
+				var fs = (this.s.fcosto(this.ultima)+t);
+				var sprima = this.s.vecino(this.ultima);
+				var fp = this.s.fcosto(sprima);
+				if(fp <=fs ){
 					c++;
 				}
-				sol = sprima;
 			}
-			return c / sol.length;
+			stdout.printf("c = %2.9f\n",c);
+			return c / this.ultima.length;
 		}
-		/**
+		**
 		 * Busqueda binaria
-		 */
-		private double busquedaBinaria(int[] sol , double t1, double t2,double pacept){
+		 *
+		private double busquedaBinaria(double t1, double t2,double pacept){
 			var tmedia = (t1+t2)/2;
 			if(t2-t1<this.epsilonp){
 				return tmedia;
 			}
-			double p = porcentajesAceptados(sol,tmedia);
+			double p = porcentajesAceptados(tmedia);
 			if((pacept - p).abs() < this.epsilonp){
 				return tmedia;
 			}
 			if(p> pacept){
 				//que p va?
-				return busquedaBinaria(sol,t1,tmedia,p);
+				return busquedaBinaria(t1,tmedia,p);
 			}else{
 				//que p do?
-				return busquedaBinaria(sol,tmedia,t2,pacept);
+				return busquedaBinaria(tmedia,t2,pacept);
 			}
 		}
-
+		*/
 		/**
 		 *Calcula un lote
 		 */
-		public double calculaLote(double t){
+		private double calculaLote(double t){
 			stdout.printf("EMPIEZA LOTE\n");
 			int c = 0;
 			double r =0;
@@ -117,13 +120,14 @@ namespace Aumbrales{
 				var fsl = (this.s.fcosto(this.ultima)+t);
 				var sprima = this.s.vecino(this.ultima);
 				var fsp = this.s.fcosto(sprima);
-				
 				//stdout.printf("fsp=%2.9f , fsl = %2.9f\n ",fsp,fsl);
 				if(fsp<= fsl){
 					var fm = this.s.fcosto(this.mejor);
 					if(fsp<=fm){
+						
 						this.mejor = sprima;
 					}
+					imprime(fsp);
 					r+=fsp;
 					this.ultima = sprima;
 					c++;
@@ -154,16 +158,72 @@ namespace Aumbrales{
 					p = calculaLote(t);
 					stdout.printf("Un Lote lleno\n");
 				}
-				stdout.printf("fcosto=%2.9f\n",this.s.fcosto(this.ultima));
+				stdout.printf("fcosto ultima=%2.9f\n",this.s.fcosto(this.ultima));
 				stdout.printf("factibles = %d\n ",this.fac);
 				t = this.psi*t;
 				stdout.printf("temperatura=%2.9f\n",t);
-				//foreach(int i in sol){stdout.printf("%d ,",i);}
-				//stdout.printf("\n");
+			    
 			}
 			
-		} 
+			
+		}
 		
+		private void imprime(double f){
+			string s = this.psi.to_string()+this.epsilon.to_string();
+			File file = File.new_for_path ("experimentos/"+s+".txt");
+			try {
+				// Append a new line on each run:
+				FileOutputStream os = file.append_to (FileCreateFlags.NONE);
+				var s ="E:"+f.to_string()+"\n";
+				os.write (s.data);
+			} catch (Error e) {
+				stdout.printf ("Error: %s\n", e.message);
+			}
+
+
+		}
+		/*
+		public void grafica(){
+			var w  =(this.aceptados.length()+20)*10;
+			var h = (this.mayorF + 60)*10;
+			string s = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+			+"<svg width=\""+w.to_string()+"\" height=\""+h.to_string()+"\">\n"
+			+"<g>\n";
+
+			s+=linea(10,30,10,h-30);
+			s+=linea(10,h-30,w-10,h-30);
+			for(int i = 0; i<this.aceptados.length();i++){
+				s+= creaCirculo((i+10)*10,(this.aceptados.nth_data(i)+30)*10);
+			}
+			s+="</g>"+"</svg>";
+			try {
+			    var file = File.new_for_path ("experimentos/graf.svg");
+				
+				// delete if file already exists
+				if (file.query_exists ()) {
+					file.delete ();
+				}
+				
+				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
+				dos.put_string (s);
+				
+			} catch (Error e) {
+				stderr.printf ("%s\n", e.message);
+				   
+			}
+			
+		}
+
+
+		private string linea(double x, double y, double v, double w){
+			return "<line x1="+x.to_string()+ " y1="+y.to_string()+
+			" x2="+v.to_string()+" y2="+w.to_string()+" style='stroke:rgb(0,0,0);stroke-width:1'/>\n";
+		}
+
+
+		private string creaCirculo(int x, double y){
+			return "<circle cx="+x.to_string()+" cy="+y.to_string() +" r='3' stroke='black' stroke-width='1' fill=blue />\n";  
+			}*/
 		
 	}
 

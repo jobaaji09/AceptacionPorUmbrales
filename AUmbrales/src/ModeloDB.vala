@@ -120,8 +120,8 @@ namespace Aumbrales{
 		}
 
         /* Metodo que obtiene la grafica de las ciudades */
-		public Gee.HashMap<string,double?> getConexiones(){
-            var map = new Gee.HashMap<string,double?>();
+		public double[,] getConexiones(){
+            var map = new double[278,278];
             const string prepared_query_str = "SELECT * FROM connections;";
             int ec = db.prepare_v2 (prepared_query_str,
 									prepared_query_str.length,
@@ -133,25 +133,27 @@ namespace Aumbrales{
             }
             int cols = this.stmt.column_count();
             while (stmt.step () == Sqlite.ROW) {
-                var key = "";
+                int k1 =0;
+				int k2 =0;
                 for (int i = 0; i < cols; i++) {
                     var col_name = stmt.column_name (i) ?? "<none>";
                     var val = stmt.column_text (i) ?? "<none>";
                     //stdout.printf ("column: %s\n", col_name);
-
-					 switch (col_name) {
-                        case "distance":
-							var d = double.parse(val);
-							map[key] = d;
-							//stdout.printf ("val: %s\n", val);
-							//stdout.printf ("valparse: %s\n", d.to_string());
-							break;
-                        case "id_city_1":
-                            key += val + ",";
-                            break;
-                        case "id_city_2":
-                            key += val;
-                            break;
+					
+					switch (col_name) {
+					case "distance":
+						var d = double.parse(val);
+						map[k1,k2] = d;
+						map[k2,k1] = d;
+						//stdout.printf ("val: %s\n", val);
+						//stdout.printf ("valparse: %s\n", d.to_string());
+						break;
+					case "id_city_1":
+						k1 = int.parse(val);;
+						break;
+					case "id_city_2":
+						k2 = int.parse(val);;
+						break;
                     }
                     
                     
