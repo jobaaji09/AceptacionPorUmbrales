@@ -20,6 +20,8 @@ namespace Aumbrales{
 		/*Factibles*/
 		private int fac;
 
+		/*name*/
+		private string name;
 		/*
 		 *Constructor
 		 */
@@ -28,13 +30,15 @@ namespace Aumbrales{
 						 int lote,
 						 double psi,
 						 double epsilon,
-						 double epsilonp
+						 double epsilonp,
+						 string name
 						 ){
 			this.s = solucion;
 			this.lote =lote;
 			this.psi =psi;
 			this.epsilon = epsilon;
 			this.epsilonp = epsilonp;
+			this.name = name;
 		}
 
 		/*
@@ -113,7 +117,7 @@ namespace Aumbrales{
 		 *Calcula un lote
 		 */
 		private double calculaLote(double t){
-			stdout.printf("EMPIEZA LOTE\n");
+			//stdout.printf("EMPIEZA LOTE\n");
 			int c = 0;
 			double r =0;
 			while(c<this.lote){
@@ -127,17 +131,16 @@ namespace Aumbrales{
 						
 						this.mejor = sprima;
 					}
-					imprime(fsp);
+					//imprime(fsp);
 					r+=fsp;
 					this.ultima = sprima;
 					c++;
+					this.fac++;
 				}
-				if(this.s.factible(this.ultima)){
-					fac++;
-				}
+			    
 			}
 			//stdout.printf("r=%2.9f\n",r);
-			stdout.printf("TERMINA LOTE\n");
+			//stdout.printf("TERMINA LOTE\n");
 			return r/this.lote;
 		}
 
@@ -156,21 +159,21 @@ namespace Aumbrales{
 					//stdout.printf("p=%2.9f , pprima=%2.9f\n",p,pprima);
 					pprima = p;
 					p = calculaLote(t);
-					stdout.printf("Un Lote lleno\n");
+					//	stdout.printf("Un Lote lleno\n");
 				}
-				stdout.printf("fcosto ultima=%2.9f\n",this.s.fcosto(this.ultima));
-				stdout.printf("factibles = %d\n ",this.fac);
+				//stdout.printf("fcosto=%2.9f\n",this.s.fcosto(this.mejor));
+				//stdout.printf("aceptadas = %d\n ",this.fac);
 				t = this.psi*t;
-				stdout.printf("temperatura=%2.9f\n",t);
+				//stdout.printf("temperatura=%2.9f\n",t);
 			    
 			}
 			
 			
 		}
-		
-		private void imprime(double f){
-			string name = this.psi.to_string()+this.epsilon.to_string();
-			File file = File.new_for_path ("experimentos/"+name+".txt");
+		/*
+		public void imprime(double f){
+			
+			File file = File.new_for_path ("experimentos/"+this.name+".txt");
 			try {
 				// Append a new line on each run:
 				FileOutputStream os = file.append_to (FileCreateFlags.NONE);
@@ -182,49 +185,9 @@ namespace Aumbrales{
 
 
 		}
-		/*
-		public void grafica(){
-			var w  =(this.aceptados.length()+20)*10;
-			var h = (this.mayorF + 60)*10;
-			string s = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-			+"<svg width=\""+w.to_string()+"\" height=\""+h.to_string()+"\">\n"
-			+"<g>\n";
-
-			s+=linea(10,30,10,h-30);
-			s+=linea(10,h-30,w-10,h-30);
-			for(int i = 0; i<this.aceptados.length();i++){
-				s+= creaCirculo((i+10)*10,(this.aceptados.nth_data(i)+30)*10);
-			}
-			s+="</g>"+"</svg>";
-			try {
-			    var file = File.new_for_path ("experimentos/graf.svg");
-				
-				// delete if file already exists
-				if (file.query_exists ()) {
-					file.delete ();
-				}
-				
-				var dos = new DataOutputStream (file.create (FileCreateFlags.REPLACE_DESTINATION));
-				dos.put_string (s);
-				
-			} catch (Error e) {
-				stderr.printf ("%s\n", e.message);
-				   
-			}
-			
-		}
-
-
-		private string linea(double x, double y, double v, double w){
-			return "<line x1="+x.to_string()+ " y1="+y.to_string()+
-			" x2="+v.to_string()+" y2="+w.to_string()+" style='stroke:rgb(0,0,0);stroke-width:1'/>\n";
-		}
-
-
-		private string creaCirculo(int x, double y){
-			return "<circle cx="+x.to_string()+" cy="+y.to_string() +" r='3' stroke='black' stroke-width='1' fill=blue />\n";  
-			}*/
+		*/
+		
 		
 	}
-
+	
 }

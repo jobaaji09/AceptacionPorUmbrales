@@ -19,8 +19,8 @@ namespace Aumbrales{
 	 	}
         
 		/* Metodo que obtiene todas la ciudades */
-		public List<Base.Ciudad> getCiudades(){
-            var ci = new List<Base.Ciudad>();
+		public Base.Ciudad[] getCiudades(){
+            var ci = new Base.Ciudad[278];
             const string prepared_query_str = "SELECT * FROM cities;";
             int ec = db.prepare_v2 (prepared_query_str,
 									prepared_query_str.length,
@@ -31,6 +31,7 @@ namespace Aumbrales{
 							   this.db.errmsg ());
             }
             int cols = this.stmt.column_count();
+			int j =1;
             while (stmt.step () == Sqlite.ROW) {
                 var c = new Base.Ciudad();
                 for (int i = 0; i < cols; i++) {
@@ -61,7 +62,8 @@ namespace Aumbrales{
                     
                     
                 }
-                ci.append(c);
+                ci[j]=c;
+				j++;
             }
             // Reset the statement to rebind parameters:
             this.stmt.reset ();
