@@ -13,25 +13,22 @@ lib_libtest_la_SOURCES = lib/test/test-case.vala
 lib_libtest_la_VALAFLAGS =		\
 	$(COMMON_VALAFLAGS)		\
 	@GEE_PACKAGES@			\
-	@GTK_PACKAGES@			\
-	@SQLITE_PACKAGES@		\
 	@GIO_PACKAGES@			\
+	@SQLITE_PACKAGES@		\
 	--header lib/test/test.h	\
 	--vapi vapi/test.vapi
 
 lib_libtest_la_CFLAGS =		\
 	@GEE_CFLAGS@		\
-	@GTK_CFLAGS@		\
-	@SQLITE_CFLAGS@		\
 	@GIO_CFLAGS@		\
+	@SQLITE_CFLAGS@		\
 	-I$(srcdir)/lib/test	\
 	-w
 
 lib_libtest_la_LIBADD = 	\
 	@GEE_LIBS@		\
-	@GTK_LIBS@		\
-	@SQLITE_LIBS@		\
-	@GIO_LIBS@
+	@GIO_LIBS@		\
+	@SQLITE_LIBS@		
 
 #libbase
 noinst_LTLIBRARIES += lib/libbase.la
@@ -41,24 +38,22 @@ lib_libbase_la_SOURCES =lib/base/Ciudad.vala
 lib_libbase_la_VALAFLAGS =		\
 	$(COMMON_VALAFLAGS)		\
 	@GEE_PACKAGES@			\
-	@GTK_PACKAGES@			\
-	@SQLITE_PACKAGES@		\
 	@GIO_PACKAGES@			\
+	@SQLITE_PACKAGES@		\
 	--header lib/base/base.h	\
 	--vapi vapi/base.vapi
 
 lib_libbase_la_CFLAGS =		\
 	@GEE_CFLAGS@		\
-	@GTK_CFLAGS@		\
-	@SQLITE_CFLAGS@		\
 	@GIO_CFLAGS@		\
+	@SQLITE_CFLAGS@		\
 	-w
 
 lib_libbase_la_LIBADD =		\
 	@GEE_LIBS@		\
-	@GTK_LIBS@		\
-	@SQLITE_LIBS@		\
-	@GIO_LIBS@
+	@GIO_LIBS@		\
+	@SQLITE_LIBS@	
+
 
 #libaceptacion
 noinst_LTLIBRARIES += lib/libaceptacion.la
@@ -68,24 +63,21 @@ lib_libaceptacion_la_SOURCES =lib/aceptacion/Solucion.vala
 lib_libaceptacion_la_VALAFLAGS =		\
 	$(COMMON_VALAFLAGS)			\
 	@GEE_PACKAGES@				\
-	@GTK_PACKAGES@				\
-	@SQLITE_PACKAGES@			\
 	@GIO_PACKAGES@				\
+	@SQLITE_PACKAGES@			\
 	--header lib/aceptacion/aceptacion.h	\
 	--vapi vapi/aceptacion.vapi
 
 lib_libaceptacion_la_CFLAGS =	\
 	@GEE_CFLAGS@		\
-	@GTK_CFLAGS@		\
-	@SQLITE_CFLAGS@		\
 	@GIO_CFLAGS@		\
+	@SQLITE_CFLAGS@		\
 	-w
 
 lib_libaceptacion_la_LIBADD =	\
 	@GEE_LIBS@		\
-	@GTK_LIBS@		\
-	@SQLITE_LIBS@		\
-	@GIO_LIBS@
+	@GIO_LIBS@		\
+	@SQLITE_LIBS@
 
 #AUmbrales
 bin_PROGRAMS = AUmbrales
@@ -102,24 +94,21 @@ AUmbrales_SOURCES = 		\
 AUmbrales_VALAFLAGS =	        \
 	--target-glib=2.38	\
 	@GEE_PACKAGES@		\
-	@GTK_PACKAGES@		\
-	@SQLITE_PACKAGES@	\
-	@GIO_PACKAGES@
+	@GIO_PACKAGES@		\
+	@SQLITE_PACKAGES@
 
 AUmbrales_CFLAGS =		\
 	@GEE_CFLAGS@		\
-	@GTK_CFLAGS@		\
-	@SQLITE_CFLAGS@		\
 	@GIO_CFLAGS@		\
+	@SQLITE_CFLAGS@		\
 	-I$(srcdir)/lib/aceptacion\
 	-I$(srcdir)/lib/base	\
 	-w
 
 AUmbrales_LDADD =		\
 	@GEE_LIBS@		\
-	@GTK_LIBS@		\
-	@SQLITE_LIBS@		\
 	@GIO_LIBS@		\
+	@SQLITE_LIBS@		\
 	lib/libbase.la		\
 	lib/libaceptacion.la
 
@@ -141,13 +130,13 @@ test_test_aumbrales_SOURCES =			\
 test_test_aumbrales_VALAFLAGS =			\
 	$(COMMON_VALAFLAGS)			\
 	@GEE_PACKAGES@				\
-	@GTK_PACKAGES@				\
+	@GIO_PACKAGES@				\
 	@SQLITE_PACKAGES@			\
 	--vapidir $(top_srcdir)/vapi
 
 test_test_aumbrales_CFLAGS =		\
 	@GEE_CFLAGS@			\
-	@GTK_CFLAGS@			\
+	@GIO_CFLAGS@			\
 	@SQLITE_CFLAGS@			\
 	-I$(srcdir)/lib/test		\
 	-I$(srcdir)/lib/base		\
@@ -156,7 +145,7 @@ test_test_aumbrales_CFLAGS =		\
 
 test_test_aumbrales_LDADD =	\
 	@GEE_LIBS@		\
-	@GTK_LIBS@		\
+	@GIO_LIBS@			\
 	@SQLITE_LIBS@		\
 	lib/libtest.la		\
 	lib/libbase.la		\
@@ -191,7 +180,6 @@ doc/aumbrales/index.htm: $(VALADOCSOURCES)
 		--vapidir=vapi					\
 		--verbose					\
 		@GEE_PACKAGES@					\
-		@GTK_PACKAGES@					\
 		@SQLITE_PACKAGES@				\
 		$(VALADOCSOURCES)
 
